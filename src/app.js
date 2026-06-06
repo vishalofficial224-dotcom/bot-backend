@@ -60,7 +60,7 @@ const getAnswer = async (command, id) => {
     })
 
     const data = await response.json();
-    sendBackInstruction(data?.candidates[0].content?.parts[0]?.text || "No Response!", id)
+    sendBackInstruction(data?.candidates[0]?.content?.parts[0]?.text || "No Response!", id)
     console.log(data?.candidates[0]?.content?.parts[0]?.text)
 }
 
