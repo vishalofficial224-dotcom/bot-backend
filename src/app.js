@@ -15,6 +15,11 @@ app.post('/webhook', (req, res) => {
     res.sendStatus(200);
 })
 
+app.get('/example', (req, res) => {
+    res.json({
+        message: "this is working setup your bot now!"
+    })
+})
 
 app.listen(3000, () => {
     console.log("server is listening 3000!")
