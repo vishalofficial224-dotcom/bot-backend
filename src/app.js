@@ -60,7 +60,13 @@ const getAnswer = async (command, id) => {
     })
 
     const data = await response.json();
-    sendBackInstruction(data?.candidates[0]?.content?.parts[0]?.text || "No Response!", id)
+    if(data.error) {
+        console.log(data.error);
+
+        await sendBackInstruction("Gemini quota exceeded. Try again later.", id);
+        return;
+    }
+    await sendBackInstruction(data?.candidates?.[0]?.content?.parts?.[0]?.text || "No Response!", id)
     console.log(data?.candidates[0]?.content?.parts[0]?.text)
 }
 
