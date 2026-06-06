@@ -11,7 +11,9 @@ const botToken = "7809216837:AAHqn-t78sYdggjC5OLhcANrrpw2p1tlVtY";
 const chatId = "8464377911";
 
 app.post('/webhook', (req, res) => {
-    console.log(req.body);
+    const text = req.body;
+    console.log(text.message.text);
+    console.log(text.message.chat.id);
     res.sendStatus(200);
 })
 
