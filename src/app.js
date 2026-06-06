@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(cors());
 
 const botToken = "7809216837:AAHqn-t78sYdggjC5OLhcANrrpw2p1tlVtY";
-const chatId = "8464377911";
+// const chatId = "8464377911";
 
 app.post('/webhook', (req, res) => {
     const data = req.body;
@@ -16,7 +16,7 @@ app.post('/webhook', (req, res) => {
     const chatId = data.message.chat.id;
 
     if(command) {
-        getAnswer(command)
+        getAnswer(command, chatId)
     }
 
     res.sendStatus(200);
@@ -30,19 +30,19 @@ app.get('/example', (req, res) => {
 
 
 //sending back instructions
-const sendBackInstruction = async(sendInstruction) => {
+const sendBackInstruction = async(sendInstruction, chatId) => {
     await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
         method: "POST",
         headers: {"Content-Type" : "application/json"},
         body: JSON.stringify({
             chat_id:chatId,
-            text: sendBackInstruction
+            text: sendInstruction
         })
     })
 }
 
 
-const getAnswer = async (command) => {
+const getAnswer = async (command, id) => {
     const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=AIzaSyCQbkDDLb9iiV56ePft_CmJVWY8Fd3trRc", {
         method: "POST",
         headers:{"Content-Type":"application/json"},
@@ -60,7 +60,7 @@ const getAnswer = async (command) => {
     })
 
     const data = await response.json();
-    sendBackInstruction(data?.candidates[0].content?.parts[0]?.text)
+    sendBackInstruction(data?.candidates[0].content?.parts[0]?.text || "No Response!", id)
     console.log(data?.candidates[0]?.content?.parts[0]?.text)
 }
 
