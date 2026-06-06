@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const connectDB = require('./config/database.js')
+
 
 const app = express();
 
@@ -15,7 +15,7 @@ app.post('/webhook', (req, res) => {
     res.sendStatus(200);
 })
 
-connectDB();
+
 app.listen(3000, () => {
     console.log("server is listening 3000!")
 })
